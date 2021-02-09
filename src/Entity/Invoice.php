@@ -18,6 +18,15 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
  *          "normalization_context"={"groups"={"invoices_subresource"}}
  *      }
  *  },
+ * itemOperations={"GET","PUT","DELETE","increment"={
+ *          "method"="post",
+ *          "path"="/invoices/{id}/increment",
+ *          "controller"="App\Controller\InvoiceIncrementationController",
+ *          "openapi_context"={
+ *              "summary"="Incrémente une facture",
+ *              "description"="Incrémente le chrono d'une facture donnée"
+ *          }
+ *  }},
  *  attributes={
  *      "pagination_enabled"=true,
  *      "pagination_items_per_page"=20,
