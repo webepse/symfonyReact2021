@@ -1,33 +1,34 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Axios from 'axios'
 import Pagination from '../components/Pagination'
 
-const CustomersPage = (props) => {
+const CustomersPagesWithPagination = (props) => {
 
     const [customers, setCustomers] = useState([])
+    // pour la pagination 
     const [currentPage, setCurrentPage] = useState(1)
 
+    const [totalItems, setTotalItems] = useState(0)
+
+    const itemsPerPage = 10
 
     useEffect(()=>{
-        Axios.get("http://127.0.0.1:8000/api/customers/")
-            .then(response => response.data['hydra:member'])
-            .then(data => setCustomers(data))
-            .catch(error=> console.log(error.response))
-    }, [])
+        Axios.get(`http://127.0.0.1:8000/api/customers?pagination=true&count=${itemsPerPage}&page=${currentPage}`)
+            .then(response => {
+                setCustomers(response.data['hydra:member'])
+                setTotalItems(response.data['hydra:totalItems'])
+            })
+            .catch(error => console.log(error.response))
+    },[currentPage])
 
-
-    // pour la pagination 
     const handlePageChange = (page) => {
+        setCustomers([])
         setCurrentPage(page)
     }
 
-    const itemsPerPage= 10
-
-    const paginatedCustomers = Pagination.getData(customers, currentPage, itemsPerPage)
-
     return ( 
         <>
-            <h1>Liste des clients</h1>
+            <h1>Liste des clients (Pagination API)</h1>
             <table className="table table-hover">
                 <thead>
                     <tr>
@@ -35,14 +36,21 @@ const CustomersPage = (props) => {
                         <th>Client</th>
                         <th>Email</th>
                         <th>Entreprise</th>
-                        <th>Factures</th>
+                        <th className="text-center">Factures</th>
                         <th className="text-center">Montant total</th>
-                        <th className="text-center">Montant restant</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {paginatedCustomers.map(customer => (
+                    {/* 
+                        Et logique (&&) expr1 && expr2 Renvoie expri1 si cette expression peut être convertie en false, sinon renvoie expr2
+                    */}
+                    {customers.length === 0 && (
+                        <tr>
+                            <td>Chargement...</td>
+                        </tr>
+                    )}
+                    {customers.map(customer => (
                         <tr key={customer.id}>
                             <td>{customer.id}</td>
                             <td>{customer.firstName} {customer.lastName}</td>
@@ -62,18 +70,14 @@ const CustomersPage = (props) => {
                     ))}
                 </tbody>
             </table>
-          <Pagination 
+            <Pagination 
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
-            length={customers.length}
+            length={totalItems}
             onPageChanged={handlePageChange}
           />
-
-           
         </>
-
-
      );
 }
  
-export default CustomersPage;
+export default CustomersPagesWithPagination;
