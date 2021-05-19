@@ -10,11 +10,22 @@ const CustomersPage = (props) => {
     // filtre
     const [search, setSearch] = useState("")
 
+    const fetchCustomers = async () => {
+        try{
+            const data = await Axios.get("http://127.0.0.1:8000/api/customers/")
+                                    .then(response => response.data['hydra:member'])
+            setCustomers(data)                        
+        }catch(error){
+            // notif à faire
+            console.log(error.response)
+        }
+
+
+    }
+
+
     useEffect(()=>{
-        Axios.get("http://127.0.0.1:8000/api/customers/")
-            .then(response => response.data['hydra:member'])
-            .then(data => setCustomers(data))
-            .catch(error=> console.log(error.response))
+        fetchCustomers()
     }, [])
 
    
