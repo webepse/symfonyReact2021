@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import Axios from 'axios'
 import Pagination from '../components/Pagination'
 import customersAPI from "../services/customersAPI"
 
@@ -26,6 +25,24 @@ const CustomersPage = (props) => {
         fetchCustomers()
     }, [])
 
+
+    // supprimer un customer
+    const handleDelete = async (id) => {
+        const orignalCustomers = [...customers] //copie des customers
+
+        // optimiste
+        setCustomers(customers.filter(customer => customer.id !== id))
+
+        // pessimiste, si cele n'a pas fonctionné, on réintègre la copie dans le state
+        try{
+            await customersAPI.delete(id)
+        }catch(error){
+           setCustomers(orignalCustomers)
+            console.log(error.response)
+            // notif à faire
+        }
+
+    }
    
 
     // pour le filtre
@@ -89,7 +106,9 @@ const CustomersPage = (props) => {
                             <td className="text-center">{customer.totalAmount.toLocaleString()}€</td>
                             <td className="text-center">{customer.unpaidAmount.toLocaleString()}€</td>
                             <td>
-                                <button 
+                                <button
+                                disabled={customer.invoices.length > 0}
+                                onClick={()=> handleDelete(customer.id)}
                                 className="btn btn-sm btn-danger">Supprimer</button>
                             </td>
                         </tr>
