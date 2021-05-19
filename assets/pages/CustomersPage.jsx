@@ -20,7 +20,6 @@ const CustomersPage = (props) => {
         }
     }
 
-
     useEffect(()=>{
         fetchCustomers()
     }, [])
@@ -115,12 +114,14 @@ const CustomersPage = (props) => {
                     ))}
                 </tbody>
             </table>
-          <Pagination 
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
-            length={customers.length}
-            onPageChanged={handlePageChange}
-          />
+            { itemsPerPage < filteredCustomers.length && 
+                <Pagination 
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                length={filteredCustomers.length}
+                onPageChanged={handlePageChange}
+                />
+            }
 
            
         </>
