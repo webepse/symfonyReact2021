@@ -28,11 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              "description"="Incrémente le chrono d'une facture donnée"
  *          }
  *  }},
- *  attributes={
- *      "pagination_enabled"=true,
- *      "pagination_items_per_page"=20,
- *      "order": {"sentAt":"desc"}
- *  },
+ * 
  *  normalizationContext={"groups"={"invoices_read"}},
  *  denormalizationContext={"disable_type_enforcement"=true}
  * )
