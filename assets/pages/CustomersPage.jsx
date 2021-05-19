@@ -6,7 +6,9 @@ const CustomersPage = (props) => {
 
     const [customers, setCustomers] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
-
+    
+    // filtre
+    const [search, setSearch] = useState("")
 
     useEffect(()=>{
         Axios.get("http://127.0.0.1:8000/api/customers/")
@@ -15,6 +17,23 @@ const CustomersPage = (props) => {
             .catch(error=> console.log(error.response))
     }, [])
 
+   
+
+    // pour le filtre
+    const handleSearch = event => {
+        const value = event.currentTarget.value 
+        setSearch(value)
+        // mettre à la page 1 pour que la fonction getData fonctionne correctement
+        setCurrentPage(1)
+    }
+
+    // système de filtre
+    const filteredCustomers = customers.filter(c =>
+              c.firstName.toLowerCase().includes(search.toLowerCase()) || 
+            c.lastName.toLowerCase().includes(search.toLowerCase()) ||
+            c.email.toLowerCase().includes(search.toLowerCase()) ||
+            (c.company && c.company.toLowerCase().includes(search.toLowerCase()))
+        )
 
     // pour la pagination 
     const handlePageChange = (page) => {
@@ -23,11 +42,16 @@ const CustomersPage = (props) => {
 
     const itemsPerPage= 10
 
-    const paginatedCustomers = Pagination.getData(customers, currentPage, itemsPerPage)
+    // modification avec le filter
+    const paginatedCustomers = Pagination.getData(filteredCustomers, currentPage, itemsPerPage)
 
     return ( 
         <>
             <h1>Liste des clients</h1>
+            {/* filtre */}
+            <div className="form-group">
+                <input type="text" className="form-control" placeholder="Recherche..." onChange={handleSearch} value={search} />
+            </div>
             <table className="table table-hover">
                 <thead>
                     <tr>
@@ -56,7 +80,8 @@ const CustomersPage = (props) => {
                             <td className="text-center">{customer.totalAmount.toLocaleString()}€</td>
                             <td className="text-center">{customer.unpaidAmount.toLocaleString()}€</td>
                             <td>
-                                <button className="btn btn-sm btn-danger">Supprimer</button>
+                                <button 
+                                className="btn btn-sm btn-danger">Supprimer</button>
                             </td>
                         </tr>
                     ))}
