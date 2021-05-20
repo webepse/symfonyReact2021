@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage'
 import authAPI from './services/authAPI';
 import PrivateRoute from './components/PrivateRoute'
 import AuthContext from './contexts/AuthContext'
+import CustomerPage from "./pages/CustomerPage"
 
 import './styles/app.css';
 // start the Stimulus application
@@ -34,6 +35,7 @@ const App = () => {
                     <Switch>
                         <Route path="/login" component={LoginPage}/>
                         <Route path="/customerspage" component={CustomersPageWithPagination} />
+                        <PrivateRoute path="/customers/:id" component={CustomerPage} />
                         <PrivateRoute path="/customers" isAuthenticated={isAuthenticated} component={CustomersPage} />
                         <PrivateRoute path="/invoices" isAuthenticated={isAuthenticated} component={InvoicesPage} />
                         <Route path="/" component={HomePage} />
