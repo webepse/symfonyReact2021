@@ -6,6 +6,8 @@ const Navbar = (props) => {
 
     const handleLogout = () => {
         authAPI.logout()
+        props.onLogout(false)
+        props.history.push("/login")
     }
 
 
@@ -26,15 +28,23 @@ const Navbar = (props) => {
                     </li>
                 </ul>
                 <ul className="navbar-nav ml-auto">
-                    <li className="nav-item">
-                        <NavLink to="/" className="nav-link">Inscription</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink to="/login" className="btn btn-success">Connexion</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <button onClick={handleLogout} className="btn btn-danger">Déconnexion</button>
-                    </li>
+                    {(!props.isAuthenticated) ? (
+                        <>   
+                            <li className="nav-item">
+                                <NavLink to="/" className="nav-link">Inscription</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink to="/login" className="btn btn-success">Connexion</NavLink>
+                            </li>
+                        </>
+                    ) : (
+                        <li className="nav-item">
+                            <button onClick={handleLogout} className="btn btn-danger">Déconnexion</button>
+                        </li>
+                    )}
+
+
+                    
                 </ul>
             </div>
         </nav> 
