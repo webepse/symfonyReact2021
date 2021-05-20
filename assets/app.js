@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage'
 import CustomersPage from './pages/CustomersPage'
 import CustomersPageWithPagination from "./pages/CustomersPagesWithPagination"
 import InvoicesPage from './pages/InvoicesPage'
+import LoginPage from './pages/LoginPage'
 
 import './styles/app.css';
 // start the Stimulus application
@@ -17,6 +18,7 @@ const App = () => {
            <Navbar />
            <main className="container pt-5">
                 <Switch>
+                    <Route path="/login" component={LoginPage} />
                     <Route path="/customerspage" component={CustomersPageWithPagination} />
                     <Route path="/customers" component={CustomersPage} />
                     <Route path="/invoices" component={InvoicesPage} />
