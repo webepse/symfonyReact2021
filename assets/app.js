@@ -12,6 +12,7 @@ import PrivateRoute from './components/PrivateRoute'
 import AuthContext from './contexts/AuthContext'
 import CustomerPage from "./pages/CustomerPage"
 import InvoicePage from "./pages/InvoicePage"
+import RegisterPage from './pages/RegisterPage'
 
 import './styles/app.css';
 // start the Stimulus application
@@ -36,6 +37,7 @@ const App = () => {
                     <Switch>
                         <Route path="/login" component={LoginPage}/>
                         <Route path="/customerspage" component={CustomersPageWithPagination} />
+                        <Route path="/register" component={RegisterPage} />
                         <PrivateRoute path="/customers/:id" component={CustomerPage} />
                         <PrivateRoute path="/customers"  component={CustomersPage} />
                         <PrivateRoute path="/invoices/:id" component={InvoicePage} />
