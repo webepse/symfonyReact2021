@@ -118,7 +118,7 @@ const CustomerPage = ({history,match}) => {
                 />
                 <div className="form-group">
                     <button type="submit" className={"btn btn-"+(!editing ? "success" : "warning")}>{!editing ? "Enregistrer" : "Modifier"}</button>
-                    <Link to="/customers" className="btn btn-secondary">Retour au clients</Link>
+                    <Link to="/customers" className="btn btn-secondary">Retour aux clients</Link>
                 </div>
             </form>
         </>

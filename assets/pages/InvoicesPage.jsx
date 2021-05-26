@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import invoicesAPI from '../services/invoicesAPI'
 import Pagination from '../components/Pagination'
 import moment from "moment"
+import {Link} from 'react-router-dom'
 
  /* object js pour transformer le statut */
  const STATUS_CLASSES = {
@@ -79,7 +80,10 @@ const InvoicesPage = (props) => {
 
     return ( 
         <>
-            <h1>Liste des factures</h1>
+            <div className="d-flex justify-content-between align-items-center">
+                <h1>Liste des factures</h1>
+                <Link className="btn btn-primary mb-3" to="/invoices/new">Créer une facture</Link>
+            </div>
             <div className="form-group">
                 <input type="text" onChange={handleSearch} value={search} className="form-control" placeholder="Rechercher ..." />    
             </div> 
@@ -108,7 +112,7 @@ const InvoicesPage = (props) => {
                                </td>
                                 <td className="text-center">{invoice.amount.toLocaleString()}€</td>
                                <td className="text-center">
-                                    <button className="btn btn-sm btn-success mx-3">Editer</button>
+                                    <Link className="btn btn-sm btn-success mx-3" to={`/invoices/${invoice.id}`}>Editer</Link>
                                     <button className="btn btn-sm btn-danger" onClick={() => handleDelete(invoice.id)}>Supprimer</button>
                                </td>
                            </tr>

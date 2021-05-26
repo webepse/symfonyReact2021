@@ -11,6 +11,7 @@ import authAPI from './services/authAPI';
 import PrivateRoute from './components/PrivateRoute'
 import AuthContext from './contexts/AuthContext'
 import CustomerPage from "./pages/CustomerPage"
+import InvoicePage from "./pages/InvoicePage"
 
 import './styles/app.css';
 // start the Stimulus application
@@ -30,14 +31,15 @@ const App = () => {
     return (
         <AuthContext.Provider value={contextValue}>
         <HashRouter>
-            <NavbarWithRouter isAuthenticated={isAuthenticated} onLogout={setIsAuthenticated}/>
+            <NavbarWithRouter />
             <main className="container pt-5">
                     <Switch>
                         <Route path="/login" component={LoginPage}/>
                         <Route path="/customerspage" component={CustomersPageWithPagination} />
                         <PrivateRoute path="/customers/:id" component={CustomerPage} />
-                        <PrivateRoute path="/customers" isAuthenticated={isAuthenticated} component={CustomersPage} />
-                        <PrivateRoute path="/invoices" isAuthenticated={isAuthenticated} component={InvoicesPage} />
+                        <PrivateRoute path="/customers"  component={CustomersPage} />
+                        <PrivateRoute path="/invoices/:id" component={InvoicePage} />
+                        <PrivateRoute path="/invoices" component={InvoicesPage} />
                         <Route path="/" component={HomePage} />
                     </Switch>
             </main>
