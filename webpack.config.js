@@ -1,3 +1,5 @@
+// besoin du package dotenv (npm install dotenv)
+require("dotenv").config()
 const Encore = require('@symfony/webpack-encore');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
@@ -71,5 +73,11 @@ Encore
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
 ;
+
+/* ajouter une option à ENCORE, dans ses options, on a une propriété qui représente les varaibles d'environement que webpack va envoyer à node et on lui rajoute API_URL avec comme valeur, ce que l'on a actuellement dans process.env.API_URL dans le fichier config.js */
+Encore.configureDefinePlugin(options => {
+    options["process.env"].API_URL = process.env.API_URL
+});
+
 
 module.exports = Encore.getWebpackConfig();
