@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Field from "../components/forms/Field"
 import {Link} from "react-router-dom"
 import Axios from "axios"
+import { toast } from 'react-toastify'
 
 const RegisterPage = ({history}) => {
     const [user, setUser] = useState({
@@ -41,6 +42,7 @@ const RegisterPage = ({history}) => {
         try{
             await Axios.post("http://127.0.0.1:8000/api/users", user)
             setErrors({})
+            toast.success("Vous êtes inscrit, vous pouvez vous connecter")
             history.replace("/login")
         }catch({response})
         {
@@ -52,6 +54,7 @@ const RegisterPage = ({history}) => {
                 })
                 setErrors(apiErrors)
             }
+            toast.error("Des erreurs dans votre formulaire...")
         }
 
 

@@ -2,6 +2,7 @@ import React, {useState, useContext} from 'react';
 import AuthContext from '../contexts/AuthContext';
 import authAPI from '../services/authAPI'
 import Field from '../components/forms/Field'
+import { toast } from 'react-toastify'
 
 const LoginPage = (props) => {
 
@@ -30,6 +31,7 @@ const LoginPage = (props) => {
             await authAPI.authenticate(credentials)
             setError("")
             setIsAuthenticated(true)
+            toast.success("Vous êtes connecté")
             props.history.replace("/customers")
         }catch(error){
             setError("Aucun compte ne possède cette adresse e-mail ou les informations ne correspond pas")

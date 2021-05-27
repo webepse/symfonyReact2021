@@ -4,6 +4,7 @@ import Field from "../components/forms/Field"
 import Select from '../components/forms/Select'
 import customersAPI from "../services/customersAPI"
 import {Link} from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 
 const InvoicePage = ({match, history}) => {
@@ -33,6 +34,7 @@ const InvoicePage = ({match, history}) => {
             setCustomers(data)
             if(id === "new") setInvoice({...invoice, customer: data[0].id})
         }catch(error){
+            toast.error("Impossible de charger les clients")
             history.replace("/invoices")
         }
     }
@@ -43,6 +45,7 @@ const InvoicePage = ({match, history}) => {
             const {amount, status, customer} = await invoicesAPI.find(id)
             setInvoice({amount, status, customer: customer.id})
         }catch(error){
+            toast.error("Impossible de charger la facture demandée")
             history.replace("/invoices")
         }
     }
@@ -78,8 +81,10 @@ const InvoicePage = ({match, history}) => {
             // test si on est en modification ou non
             if(editing){
                 await invoicesAPI.update(id, invoice)
+                toast.success("La facture a bien été modifée")
             }else{
                 await invoicesAPI.create(invoice)
+                toast.success("La facture a bien été enregistrée")
                 history.replace("/invoices")
             }
         }catch({response}){
@@ -93,6 +98,7 @@ const InvoicePage = ({match, history}) => {
                 })
                 setErrors(apiErrors)
             }
+            toast.error("Une erreur est survenue")
         }
     }
 

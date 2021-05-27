@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Field from '../components/forms/Field';
 import {Link} from "react-router-dom"
 import customersAPI from "../services/customersAPI"
+import { toast } from 'react-toastify'
 
 const CustomerPage = ({history,match}) => {
 
@@ -29,7 +30,7 @@ const CustomerPage = ({history,match}) => {
             const {firstName, lastName, email, company} = await customersAPI.find(id)
             setCustomer({firstName, lastName, email, company})
         }catch(error){
-            // notif 
+            toast.error("Le client n'a pas pu être chargé")
             history.replace("/customers")
         }
     }
@@ -59,9 +60,11 @@ const CustomerPage = ({history,match}) => {
             if(editing){
                 // update
                 await customersAPI.update(id, customer)
+                toast.success("Le client a bien été modifié")
             }else{
                 // create
                 await customersAPI.create(customer)
+                toast.success("Le client a bien été enregistré")
                 history.replace("/customers") // redirection
             }
         }catch({response}){
@@ -75,6 +78,7 @@ const CustomerPage = ({history,match}) => {
                 })
                 setErrors(apiErrors)
             }
+            toast.error("Une erreur est survenue")
         }
     }
 

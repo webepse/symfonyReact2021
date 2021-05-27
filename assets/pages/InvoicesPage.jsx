@@ -3,6 +3,7 @@ import invoicesAPI from '../services/invoicesAPI'
 import Pagination from '../components/Pagination'
 import moment from "moment"
 import {Link} from 'react-router-dom'
+import { toast } from 'react-toastify'
 
  /* object js pour transformer le statut */
  const STATUS_CLASSES = {
@@ -31,7 +32,8 @@ const InvoicesPage = (props) => {
             const data = await invoicesAPI.findAll()
             setInvoices(data)
         }catch(error){
-            console.log(error.response)
+            //console.log(error.response)
+            toast.error("Erreur lors du chargement des factures")
         }
     }
 
@@ -67,9 +69,10 @@ const InvoicesPage = (props) => {
         // pessimiste, si cela n'a pas fonctionné, on réintègre la copie avec orignalCustomers
         try {
             await invoicesAPI.delete(id)
+            toast.warning("LA facture a bien été supprimée")
         }catch(error){
             setInvoices(orignalInvoices)
-            // notif a faire
+            toast.error("Une erreur est survenue")
         }
     }
 
