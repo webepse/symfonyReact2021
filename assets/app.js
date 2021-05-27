@@ -14,6 +14,7 @@ import CustomerPage from "./pages/CustomerPage"
 import InvoicePage from "./pages/InvoicePage"
 import RegisterPage from './pages/RegisterPage'
 import { ToastContainer, toast } from 'react-toastify';
+import ClientPage from './pages/ClientPage'
 
 import 'react-toastify/dist/ReactToastify.css';
 import './styles/app.css';
@@ -40,6 +41,7 @@ const App = () => {
                         <Route path="/login" component={LoginPage}/>
                         <Route path="/customerspage" component={CustomersPageWithPagination} />
                         <Route path="/register" component={RegisterPage} />
+                        <PrivateRoute path="/client/:id" component={ClientPage} />
                         <PrivateRoute path="/customers/:id" component={CustomerPage} />
                         <PrivateRoute path="/customers"  component={CustomersPage} />
                         <PrivateRoute path="/invoices/:id" component={InvoicePage} />
