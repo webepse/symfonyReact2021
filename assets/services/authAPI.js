@@ -1,13 +1,14 @@
 import Axios from "axios"
 import jwtDecode from 'jwt-decode'
+import {LOGIN_API} from '../config'
 
 
 function authenticate(credentials){
     return Axios
-            .post("http://localhost:8000/api/login_check", credentials)
+            .post(LOGIN_API, credentials)
             .then(response => response.data.token)
             .then(token => {
-                // utilisation du localstorage pour stocker mon token
+                // utilisation du localStorage pour stocker mon token
                 window.localStorage.setItem("authToken", token)
                 // on va prévenir Axios qu'on a un header par défaut avec un Bearer Token
                 Axios.defaults.headers["Authorization"]="Bearer " + token 
