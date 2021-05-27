@@ -4,6 +4,7 @@ import Pagination from '../components/Pagination'
 import moment from "moment"
 import {Link} from 'react-router-dom'
 import { toast } from 'react-toastify'
+import TableLoader from '../components/loaders/TableLoader'
 
  /* object js pour transformer le statut */
  const STATUS_CLASSES = {
@@ -26,11 +27,15 @@ const InvoicesPage = (props) => {
     const [search, setSearch] = useState("")
     const itemsPerPage = 20
 
+    // loading 
+    const [loading, setLoading] = useState(true)
+
     // Récupération des invoices auprès de l'API
     const fetchInvoice = async () => {
         try{
             const data = await invoicesAPI.findAll()
             setInvoices(data)
+            setLoading(false) // fini de charger
         }catch(error){
             //console.log(error.response)
             toast.error("Erreur lors du chargement des factures")
@@ -90,6 +95,8 @@ const InvoicesPage = (props) => {
             <div className="form-group">
                 <input type="text" onChange={handleSearch} value={search} className="form-control" placeholder="Rechercher ..." />    
             </div> 
+            {(!loading) ? (
+
             <table className="table table-hover">
                 <thead>
                     <tr>
@@ -123,6 +130,10 @@ const InvoicesPage = (props) => {
                     }
                 </tbody>
             </table>
+            ) : (
+                <TableLoader />
+                )
+            }
             { itemsPerPage < filteredInvoices.length && 
             <Pagination 
                 currentPage={currentPage} 

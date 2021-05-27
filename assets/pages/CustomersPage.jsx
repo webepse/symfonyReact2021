@@ -3,6 +3,7 @@ import Pagination from '../components/Pagination'
 import customersAPI from "../services/customersAPI"
 import {Link} from "react-router-dom"
 import { toast } from 'react-toastify'
+import TableLoader from '../components/loaders/TableLoader'
 
 const CustomersPage = (props) => {
 
@@ -12,10 +13,14 @@ const CustomersPage = (props) => {
     // filtre
     const [search, setSearch] = useState("")
 
+    // loading
+    const [loading, setLoading] = useState(true)
+
     const fetchCustomers = async () => {
         try{
             const data = await customersAPI.findAll()
-            setCustomers(data)                        
+            setCustomers(data)
+            setLoading(false) // j'ai fini de charger                        
         }catch(error){
             toast.error("Impossible de charger les client")
             //console.log(error.response)
@@ -84,6 +89,7 @@ const CustomersPage = (props) => {
             <div className="form-group">
                 <input type="text" className="form-control" placeholder="Recherche..." onChange={handleSearch} value={search} />
             </div>
+            {(!loading) ? (
             <table className="table table-hover">
                 <thead>
                     <tr>
@@ -122,6 +128,10 @@ const CustomersPage = (props) => {
                     ))}
                 </tbody>
             </table>
+            )   : (
+                    <TableLoader />
+                )
+            }
             { itemsPerPage < filteredCustomers.length && 
                 <Pagination 
                 currentPage={currentPage}
